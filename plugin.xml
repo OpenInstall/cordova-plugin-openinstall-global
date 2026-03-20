@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-openinstall-global" version="1.0.0"
+    xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <name>OpenInstall Global</name>
+
+    <preference name="OPENINSTALL_APPKEY"/>
+    <preference name="OPENINSTALL_SCHEME"/>
+
+    <!-- android -->
+    <platform name="android">
+	
+        <js-module name="openinstall" src="www/cordova-plugin-openinstall-global.js">
+            <clobbers target="openinstall" />
+        </js-module>
+	
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="OpenInstallPlugin">
+                <param name="android-package" value="io.openinstall.cordova.OpenInstallPlugin"/>
+				<param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+        </config-file>
+		
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <meta-data
+                android:name="com.openinstall.APP_KEY"
+                android:value="$OPENINSTALL_APPKEY"/>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application/activity[@android:name='MainActivity']">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="$OPENINSTALL_SCHEME" />
+            </intent-filter>
+        </config-file>
+
+        <source-file src="src/android/OpenInstallPlugin.java" target-dir="src/io/openinstall/cordova" />
+        <lib-file src="src/android/lib/OpenInstall_v1.0.0.jar" target-dir="libs" />
+
+    </platform>
+    
+    <!-- ios -->
+    <platform name="ios">
+
+        <js-module name="openinstall" src="www/cordova-plugin-openinstall-global.js">
+            <clobbers target="openinstall" />
+        </js-module>
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="OpenInstallPlugin">
+                <param name="ios-package" value="CDVOpenInstall"/>
+                <param name="onload" value="true" />
+            </feature>
+            <preference name="com.openinstall.app_key" value="$OPENINSTALL_APPKEY"/>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="com.openinstall.APP_KEY">
+            <key>com.openinstall.APP_KEY</key>
+            <string>$OPENINSTALL_APPKEY</string>
+        </config-file>
+        
+        <!-- Plugin source code -->
+        <header-file src="src/ios/CDVOpenInstall.h" />
+        <source-file src="src/ios/CDVOpenInstall.m" />
+	<source-file src="src/ios/AppDelegate+OpenInstallSDK.m" />
+        <header-file src="src/ios/CDVOpenInstallStorage.h" />
+        <source-file src="src/ios/CDVOpenInstallStorage.m" />
+        <header-file src="src/ios/libs/OpenInstallSDK.h" />
+		<header-file src="src/ios/libs/OpenInstallData.h" />
+        <source-file src="src/ios/libs/libOpenInstallSDK.a" framework="true" />
+
+    </platform>
+</plugin>

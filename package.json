@@ -1,0 +1,29 @@
+{
+  "name": "cordova-plugin-openinstall-global",
+  "version": "1.0.0",
+  "cordova": {
+    "id": "cordova-plugin-openinstall-global",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "keywords": [
+    "openinstall",
+    "openinstall-global",
+    "一键拉起",
+    "免填邀请码",
+    "渠道统计"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OpenInstall/cordova-plugin-openinstall-global.git"
+  },
+  "bugs": {
+    "url": "https://github.com/OpenInstall/cordova-plugin-openinstall-global/issues"
+  },
+  "homepage": "https://www.openinstallglobal.com",
+  "author": "openinstall",
+  "license": "MIT",
+  "description": "OpenInstall Cordova plugin (Global / international SDK)"
+}
