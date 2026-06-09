@@ -133,6 +133,41 @@
     }
 }
 
+-(void)reportShare:(CDVInvokedUrlCommand *)command{
+    
+    NSString *shareCode = @"";
+    NSString *sharePlatform = @"";
+    if (command.arguments.count >= 2) {
+        id codeArg = [command.arguments objectAtIndex:0];
+        if ([codeArg isKindOfClass:[NSString class]]) {
+            shareCode = (NSString *)codeArg;
+        }
+        id platformArg = [command.arguments objectAtIndex:1];
+        if ([platformArg isKindOfClass:[NSString class]]) {
+            sharePlatform = (NSString *)platformArg;
+        }
+    }
+    
+    if (shareCode.length == 0 || sharePlatform.length == 0) {
+        CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"参数错误"];
+        [self.commandDelegate sendPluginResult:commandResult callbackId:command.callbackId];
+        return;
+    }
+    
+    [[OpenInstallSDK defaultManager] reportShareParametersWithShareCode:shareCode
+                                                          sharePlatform:sharePlatform
+                                                              completed:^(NSInteger code, NSString * _Nullable msg) {
+        if (code == 0) {
+            CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:1];
+            [self.commandDelegate sendPluginResult:commandResult callbackId:command.callbackId];
+        } else {
+            NSString *errorMsg = msg.length > 0 ? msg : [NSString stringWithFormat:@"%ld", (long)code];
+            CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMsg];
+            [self.commandDelegate sendPluginResult:commandResult callbackId:command.callbackId];
+        }
+    }];
+}
+
 #pragma mark "OpenInstallDelegate"
 /**
  * 唤醒时获取h5页面动态参数（如果是渠道链接，渠道编号会一起返回）

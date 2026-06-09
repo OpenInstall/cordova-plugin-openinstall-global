@@ -19,5 +19,6 @@
 -(void)registerWakeUpHandler:(CDVInvokedUrlCommand *)command;//注册获取唤醒参数的方法
 -(void)reportRegister:(CDVInvokedUrlCommand *)command;//注册统计
 -(void)reportEffectPoint:(CDVInvokedUrlCommand *)command;//渠道效果统计
+-(void)reportShare:(CDVInvokedUrlCommand *)command;//裂变分享统计
 -(BOOL)setUniversallinksHandler:(NSUserActivity *)userActivity;
 @end
